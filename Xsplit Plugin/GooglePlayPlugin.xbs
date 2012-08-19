@@ -1,0 +1,4 @@
+<configuration id="3A56008B-E2EE-4180-95EB-8B1D9BC23ED7" name="Google Play Plugin">
+  <app imagename="D:\GitHub\GooglePlay4Xsplit\GooglePlay4XSplit\bin\Debug\GooglePlay4Xsplit.exe" />
+  <event notloaded="notloaded.png" noconn="noconn.png" nosignal="nosignal.png" nosignaltimeout="2000" />
+</configuration>

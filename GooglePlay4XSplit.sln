@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GooglePlay4XSplit", "GooglePlay4XSplit\GooglePlay4XSplit.csproj", "{832F4C50-96EF-43DC-AA76-F590C69FF7E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleMusicAPI.NET", "..\GoogleMusicAPI.NET\GoogleMusicAPI.NET\GoogleMusicAPI.NET.csproj", "{52442B20-D632-4412-9628-352FFE948C73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{832F4C50-96EF-43DC-AA76-F590C69FF7E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{832F4C50-96EF-43DC-AA76-F590C69FF7E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{832F4C50-96EF-43DC-AA76-F590C69FF7E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{832F4C50-96EF-43DC-AA76-F590C69FF7E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52442B20-D632-4412-9628-352FFE948C73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52442B20-D632-4412-9628-352FFE948C73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52442B20-D632-4412-9628-352FFE948C73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52442B20-D632-4412-9628-352FFE948C73}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
