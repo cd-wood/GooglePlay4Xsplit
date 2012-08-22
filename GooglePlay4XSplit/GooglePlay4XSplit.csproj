@@ -34,10 +34,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization.Design" />
+    <Reference Include="System.Windows.Input.Manipulations" />
+    <Reference Include="System.Windows.Presentation" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -49,7 +53,6 @@
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
@@ -57,6 +60,36 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BooleanInversionConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\DoubleAdjustmentConverter.cs" />
+    <Compile Include="Converters\VolumeToStringConverter.cs" />
+    <Compile Include="Model\GoogleMusicSongComparer.cs" />
+    <Compile Include="MVVM\DelegateHelper.cs" />
+    <Compile Include="MVVM\RelayCommand.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="ViewModel\MusicControlPanelViewModel.cs" />
+    <Compile Include="ViewModel\MusicControlViewModel.cs" />
+    <Compile Include="ViewModel\SliderWithValueViewModel.cs" />
+    <Compile Include="ViewModel\SongSelectionViewModel.cs" />
+    <Compile Include="View\MusicControlPanelView.xaml.cs">
+      <DependentUpon>MusicControlPanelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\MusicControlView.xaml.cs">
+      <DependentUpon>MusicControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PopUp.xaml.cs">
+      <DependentUpon>PopUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SliderWithValue.xaml.cs">
+      <DependentUpon>SliderWithValue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SongBox.xaml.cs">
+      <DependentUpon>SongBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\SongSelectionView.xaml.cs">
+      <DependentUpon>SongSelectionView.xaml</DependentUpon>
+    </Compile>
     <Page Include="View\LoginControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -80,6 +113,30 @@
       <DependentUpon>MainWindowView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\MusicControlPanelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\MusicControlView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\PopUp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SliderWithValue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SongBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\SongSelectionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -113,8 +170,24 @@
       <Project>{52442b20-d632-4412-9628-352ffe948c73}</Project>
       <Name>GoogleMusicAPI.NET</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\XSplit.Wpf\Xsplit.Wpf\Xsplit.Wpf.csproj">
+      <Project>{1d27f62e-a1f9-4fe9-83a5-70dc81042345}</Project>
+      <Name>Xsplit.Wpf</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PlayButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\PauseButton.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(SolutionDir)Xsplit Plugin\*.*" "$(TargetDir)" /Y/Q</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

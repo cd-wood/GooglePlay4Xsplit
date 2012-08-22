@@ -13,18 +13,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Timers;
-using GooglePlay4XSplit.Model;
-using System.Threading;
 
 namespace GooglePlay4XSplit.View
 {
     /// <summary>
-    /// Interaction logic for LoginView.xaml
+    /// Interaction logic for SongSelectionView.xaml
     /// </summary>
-    public partial class LoginControl : UserControl
+    public partial class SongSelectionView : UserControl
     {
-        public LoginControl()
+        public SongSelectionView()
         {
             InitializeComponent();
         }

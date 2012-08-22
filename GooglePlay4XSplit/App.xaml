@@ -8,5 +8,14 @@
         <DataTemplate DataType="{x:Type ViewModel:LoginControlViewModel}">
             <View:LoginControl/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModel:SongSelectionViewModel}">
+            <View:SongSelectionView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModel:MusicControlPanelViewModel}">
+            <View:MusicControlPanelView OutputWidth="{Binding ControlWidth, Mode=OneWay}" OutputHeight="{Binding ControlHeight, Mode=OneWay}"/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type ViewModel:MusicControlViewModel}">
+            <View:MusicControlView/>
+        </DataTemplate>
     </Application.Resources>
 </Application>

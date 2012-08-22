@@ -1,0 +1,25 @@
+﻿<UserControl
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:Converters="clr-namespace:GooglePlay4XSplit.Converters" xmlns:local="clr-namespace:GooglePlay4XSplit.View" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="GooglePlay4XSplit.View.MusicControlPanelView"
+        Height="300" Width="500">
+    <UserControl.Resources>
+        <Converters:BooleanInversionConverter x:Key="BooleanInversionConverter"/>
+        <Converters:DoubleAdjustmentConverter x:Key="DoubleAdjustmentConverter"/>
+    </UserControl.Resources>
+    <Grid x:Name="grid">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="130"/>
+        </Grid.RowDefinitions>
+        <Border HorizontalAlignment="Left" Margin="10,10,10,10" VerticalAlignment="Top" BorderBrush="Black" BorderThickness="1" Width="{Binding ActualWidth, ConverterParameter=-20.0, Converter={StaticResource DoubleAdjustmentConverter}, ElementName=grid, Mode=OneWay}" Height="{Binding RowDefinitions/ActualHeight, ConverterParameter=-20.0, Converter={StaticResource DoubleAdjustmentConverter}, ElementName=grid, Mode=OneWay}">
+            <ContentControl x:Name="contentView" Content="{Binding MusicControl}" IsHitTestVisible="True" IsTabStop="False" Focusable="False"/>
+        </Border>
+        <Label Content="Width:" HorizontalAlignment="Left" Margin="10,0,0,78" Grid.Row="1" VerticalAlignment="Bottom" FontSize="14" Height="42" VerticalContentAlignment="Center"/>
+        <Label Content="Height:" HorizontalAlignment="Left" Margin="10,0,0,37" Grid.Row="1" VerticalAlignment="Bottom" FontSize="14" Height="42" VerticalContentAlignment="Center"/>
+        <Button Content="Update" HorizontalAlignment="Left" Margin="10,0,0,10" Grid.Row="1" VerticalAlignment="Bottom" Width="50" IsEnabled="{Binding AutoUpdateSize, Converter={StaticResource BooleanInversionConverter}, Mode=OneWay}"/>
+        <CheckBox Content="Automatically Update" HorizontalAlignment="Left" Margin="65,0,0,13" Grid.Row="1" VerticalAlignment="Bottom" IsChecked="{Binding AutoUpdateSize, FallbackValue=true, Mode=OneWayToSource}" />
+        <local:SliderWithValue x:Name="height_slider" HorizontalAlignment="Left" Margin="65,51,0,0" Grid.Row="1" VerticalAlignment="Top" Value="{Binding ControlHeight, FallbackValue=128.0, Mode=OneWayToSource}" MinimumValue="0" MaximumValue="480.0"/>
+        <local:SliderWithValue x:Name="width_slider" HorizontalAlignment="Left" Margin="65,10,0,0" Grid.Row="1" VerticalAlignment="Top" Value="{Binding ControlWidth, FallbackValue=160.0, Mode=OneWayToSource}" MinimumValue="0" MaximumValue="640.0"/>
+    </Grid>
+</UserControl>

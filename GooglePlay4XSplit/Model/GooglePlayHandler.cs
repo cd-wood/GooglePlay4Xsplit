@@ -8,17 +8,28 @@ using System.Threading;
 
 namespace GooglePlay4XSplit.Model
 {
-    public enum ThreadResult { NONE, BUSY, UNINIT, TIMEDOUT, ERROR, LOGGEDIN, GOTSONGS, GOTALLPL };
+    public enum ThreadResult { NONE, BUSY, UNINIT, TIMEDOUT, ERROR, LOGGEDOUT, LOGGEDIN, GOTSONGS, GOTALLPL };
     public class GooglePlayHandler
     {
         private API gpApi;
         private AutoResetEvent threadHandler;
+        private ThreadResult threadResult;
 
         private List<GoogleMusicSong> allSongs;
-        private GoogleMusicPlaylists allPlaylists;
+        public List<GoogleMusicSong> AllSongs
+        { get { return allSongs; } }
 
-        private ThreadResult threadResult;
+        private GoogleMusicPlaylists allPlaylists;
+        public GoogleMusicPlaylists AllPlaylists
+        { get { return allPlaylists; } }
+
         private Exception errorException;
+        public Exception ErrorException
+        { get { return errorException; } }
+
+        public delegate bool LogoutEvent(object sender, EventArgs e);
+        public event LogoutEvent OnLogout;
+        public event EventHandler OnLogIn;
 
         public GooglePlayHandler()
         {
@@ -36,10 +47,20 @@ namespace GooglePlay4XSplit.Model
             gpApi.OnLoginComplete += LoginSuccessful;
         }
 
-        // Return the latest Error
-        public Exception GetErrorException()
+        public void Logout()
         {
-            return errorException;
+            if ((OnLogout != null) && OnLogout(this, null))
+            {
+                InterruptAction();
+                threadResult = ThreadResult.LOGGEDOUT;
+                if (allSongs != null)
+                    allSongs.Clear();
+                if (allPlaylists != null)
+                {
+                    allPlaylists.InstantMixes.Clear();
+                    allPlaylists.UserPlaylists.Clear();
+                }
+            }
         }
 
         public void InterruptAction()
@@ -77,6 +98,7 @@ namespace GooglePlay4XSplit.Model
         {
             threadResult = ThreadResult.LOGGEDIN;
             threadHandler.Set();
+            OnLogIn(this, null);
         }
 
         public ThreadResult GetAllSongs()
@@ -108,7 +130,7 @@ namespace GooglePlay4XSplit.Model
             threadHandler.Set();
         }
 
-        private ThreadResult GetAllPlaylists()
+        public ThreadResult GetAllPlaylists()
         {
             errorException = null;
             if (gpApi == null)

@@ -5,15 +5,17 @@ using System.ComponentModel;
 using GooglePlay4XSplit.Model;
 using GooglePlay4XSplit.View;
 using GooglePlay4XSplit.MVVM;
+using System.Windows;
 
 namespace GooglePlay4XSplit.ViewModel
 {
     public class MainWindowViewModel : ObservableObject
     {
-        private static readonly GooglePlayHandler gpHandler = new GooglePlayHandler();
+        private static GooglePlayHandler gpHandler;
         public static GooglePlayHandler GooglePlayHandler
         {
             get { return gpHandler; }
+            private set { gpHandler = value; }
         }
 
         private readonly LoginControlViewModel loginControlViewModel;
@@ -22,17 +24,22 @@ namespace GooglePlay4XSplit.ViewModel
             get { return loginControlViewModel; }
         }
 
-        
-
-        public MainWindowViewModel()
+        private readonly SongSelectionViewModel songSelectionViewModel;
+        public SongSelectionViewModel SongSelectionViewModel
         {
-            loginControlViewModel = new LoginControlViewModel(GooglePlayHandler, LogIn);
-            this.IsLoggedIn = false;
+            get { return songSelectionViewModel; }
         }
 
-        public LoginControlViewModel LoginControlViewModel
+        private readonly MusicControlPanelViewModel musicControlPanelViewModel;
+        public MusicControlPanelViewModel MusicControlPanelViewModel
         {
-            get { return loginControlViewModel; }
+            get { return musicControlPanelViewModel; }
+        }
+
+        private readonly MusicControlViewModel musicControl = new MusicControlViewModel();
+        public MusicControlViewModel MusicControl
+        {
+            get { return musicControl; }
         }
 
         private bool loggedIn;
@@ -43,19 +50,40 @@ namespace GooglePlay4XSplit.ViewModel
             {
                 loggedIn = value;
                 RaisePropertyChanged("IsLoggedIn");
-                RaisePropertyChanged("IsNotLoggedIn");
             }
         }
-        public bool IsNotLoggedIn
+
+
+        public MainWindowViewModel()
         {
-            get { return !loggedIn; }
+            CreateGooglePlayHandler();
+            loginControlViewModel = new LoginControlViewModel();
+            songSelectionViewModel = new SongSelectionViewModel(this.MusicControl);
+            musicControlPanelViewModel = new MusicControlPanelViewModel(this.MusicControl);
+            this.IsLoggedIn = false;
         }
 
+        private void CreateGooglePlayHandler()
+        {
+            GooglePlayHandler = new GooglePlayHandler();
+            GooglePlayHandler.OnLogIn += onLogIn;
+            GooglePlayHandler.OnLogout += onLogout;
+        }
 
-
-        private void LogIn(object sender)
+        private void onLogIn(object sender, EventArgs e)
         {
             this.IsLoggedIn = true;
+            this.SongSelectionViewModel.Begin();
+        }
+
+        public bool onLogout(object sender, EventArgs e)
+        {
+            // Tell music player to stop
+            // this.MusicControl.Finish();
+
+            this.IsLoggedIn = false;
+            CreateGooglePlayHandler();
+            return true;
         }
     }
 }

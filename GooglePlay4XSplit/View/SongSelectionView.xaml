@@ -1,0 +1,38 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Converters="clr-namespace:GooglePlay4XSplit.Converters"
+             xmlns:View="clr-namespace:GooglePlay4XSplit.View"
+             x:Class="GooglePlay4XSplit.View.SongSelectionView" 
+             mc:Ignorable="d" 
+             Height="280" Width="500">
+    <UserControl.Resources>
+        <Converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <Converters:VolumeToStringConverter x:Key="VolumeToStringConverter"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid x:Name="main_grid" IsEnabled="{Binding IsAttemptingDownload, ConverterParameter=false, Converter={StaticResource BooleanToVisibilityConverter}}" Visibility="{Binding IsAttemptingDownload, ConverterParameter=false, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <View:SongBox x:Name="songBox" HorizontalAlignment="Right" Height="280"  VerticalAlignment="Top" Width="250" Padding="1,1,4,4"  SongSource="{Binding SongList}" SetBackreference="{Binding MusicControlViewModel}"/>
+            <ComboBox HorizontalAlignment="Left" Margin="10,10,10,0" VerticalAlignment="Top" Width="235" ItemsSource="{Binding PlaylistList}" SelectedIndex="{Binding SelectedPlaylist}"/>
+            <Button x:Name="logout_button" Content="Logout" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="75" IsCancel="True" Command="{Binding LogoutCommand}" Focusable="False"/>
+            <Button x:Name="shuffle_button" Content="Shuffle" HorizontalAlignment="Left" Margin="90,0,0,10" VerticalAlignment="Bottom" Width="75" Command="{Binding ShuffleCommand, ElementName=songBox}"/>
+            <Button x:Name="unshuffle_button" Content="Unshuffle" HorizontalAlignment="Left" Margin="170,0,10,10" VerticalAlignment="Bottom" Width="75" IsEnabled="{Binding IsShuffled, ElementName=songBox}" Command="{Binding UnshuffleCommand, ElementName=songBox}"/>
+            <Button HorizontalAlignment="Left" Margin="10,0,0,37" VerticalAlignment="Bottom" Width="32" Command="{Binding MusicControlViewModel.TogglePlayCommand}" Height="32" Focusable="False">
+                <Image Source="{Binding MusicControlViewModel.PlayButtonImage}"/>
+            </Button> 
+            <Label HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top" Width="235" BorderBrush="Black" BorderThickness="1" ScrollViewer.VerticalScrollBarVisibility="Disabled" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" Height="169">
+                <ScrollViewer Width="225" VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Visible" Content="{Binding MusicControlViewModel.CurrentSongInfo}" CanContentScroll="True" Height="159"/>
+            </Label>
+            <Slider x:Name="volume_slider" HorizontalAlignment="Left" Margin="47,0,0,37" VerticalAlignment="Bottom" Width="118" SmallChange="1" LargeChange="10" IsMoveToPointEnabled="True" IsTabStop="False" Focusable="False" Maximum="100" Value="{Binding MusicControlViewModel.Volume}"/>
+            <Label Content="{Binding Value, ElementName=volume_slider, Converter={StaticResource VolumeToStringConverter}}" HorizontalAlignment="Left" Margin="165,0,0,37" VerticalAlignment="Bottom" FontSize="14"/>
+        </Grid>
+        <Grid x:Name="playlistdownload_grid" Background="#FF323232" Opacity="0.7" Visibility="{Binding IsAttemptingDownload, ConverterParameter=true, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True">
+            <Label x:Name="downloading_text" Content="{Binding DownloadingPlaylistsText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="White"/>
+        </Grid>
+        <Grid x:Name="loadingsongs_grid" HorizontalAlignment="Right" Height="300" Background="#FF323232" Opacity="0.7" VerticalAlignment="Top" Width="250" Visibility="{Binding IsLoadingSongs, ConverterParameter=true, Converter={StaticResource BooleanToVisibilityConverter}}" d:IsHidden="True">
+            <Label x:Name="loadingsongs_text" Content="{Binding LoadingSongsText}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" Foreground="White"/>
+        </Grid>
+    </Grid>
+</UserControl>
